@@ -8,6 +8,7 @@ export default function App() {
     <Layout>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/ml-visualizer" element={<Home />} />
         <Route path="/decision-trees/*" element={<DecisionTrees />} />
         {/* More topics HERE!!!! */}
       </Routes>
