@@ -1,0 +1,75 @@
+@import url('./assets/css/satoshi.css');
+
+:root {
+  --bg-main: #ffffff;
+  --bg-subtle: #f8f9fa;
+  --border-subtle: #e0e0e0;
+  --text-main: #202124;
+  --text-subtle: #5f6368;
+  --shadow-light: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+  font-family: 'Satoshi-Variable', system-ui, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-main);
+  color: var(--text-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a {
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-light);
+  text-decoration: underline;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 3.2rem;
+}
+
+h2 {
+  font-size: 2.2rem;
+}
+
+p {
+  font-size: 1.2rem;
+  max-width: 700px;
+  line-height: 1.6;
+  margin: 0 auto 1.5rem auto;
+}
+
+button {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.6em 1.2em;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: var(--accent);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}

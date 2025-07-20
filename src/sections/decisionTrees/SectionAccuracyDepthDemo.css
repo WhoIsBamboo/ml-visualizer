@@ -1,0 +1,30 @@
+.accuracy-graph {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    padding: 16px;
+    width: fit-content;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.slider-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1.5rem;
+    gap: 0.5rem;
+}
+
+.slider-row label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.slider-row input[type="range"] {
+    width: 400px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}

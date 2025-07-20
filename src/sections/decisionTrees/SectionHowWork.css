@@ -1,0 +1,74 @@
+.row-layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; 
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.grow-graph {
+  max-width: 520px;
+  width: 100%;
+  object-fit: contain;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+}
+
+.grow-tree {
+  max-width: 440px;
+  width: 100%;
+  object-fit: contain;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.button-row button {
+  background-color: white;
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.25s ease;
+}
+
+.button-row button:hover {
+  background-color: var(--bg-hover);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 78px) {
+    .row-layout {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    width: 100%;
+    }
+
+.grow-graph,
+.grow-tree {
+  display: block;
+  border: none;
+  background: none;
+  box-shadow: none;
+  object-fit: contain;
+}}
