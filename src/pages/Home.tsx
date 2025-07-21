@@ -1,4 +1,3 @@
-// Home.tsx – Grid View with Labels
 import './Home.css';
 import { Link } from 'react-router-dom';
 import DecisionTreeImage from '../assets/images/decisiontree.png';

@@ -31,7 +31,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <span className="dropdown-trigger">Topics ▾</span>
             <div className="dropdown-menu">
               <Link to="/decision-trees/1">Decision Trees</Link>
-              {/* Add other topics here as they become available */}
+              {/* More topics here */}
             </div>
           </div>
         </nav>

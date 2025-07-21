@@ -62,8 +62,6 @@
   background: var(--bg-main);
 }
 
-
-/* Add to existing Layout.css */
 .layout-nav {
   display: flex;
   align-items: center;
