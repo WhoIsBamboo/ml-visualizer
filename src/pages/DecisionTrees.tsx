@@ -32,11 +32,12 @@ export default function DecisionTrees() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [pendingScroll, setPendingScroll] = useState<'top' | 'bottom' | null>(null);
+  const [pendingScroll, setPendingScroll] = useState<'top' | 'bottom' | null>(null); //type: take 1 of 3 values
 
-  const currentId = location.pathname.split('/').pop() || '1';
-  const currentIndex = sectionComponents.findIndex(sec => sec.id === currentId);
+  const currentId = location.pathname.split('/').pop() || '1'; // "/decision-trees/3" -> ["", "decision-trees", "3"] -> "3", if nothing then "1"
+  const currentIndex = sectionComponents.findIndex(sec => sec.id === currentId);  //Search sectionComponents, return index of first matched element
 
+  //for Next & Back
   const goToSection = (index: number, scrollPosition: 'top' | 'bottom') => {
     const newId = sectionComponents[index].id;
     setPendingScroll(scrollPosition);
@@ -51,7 +52,7 @@ export default function DecisionTrees() {
       window.scrollTo({ top: document.body.scrollHeight });
       setPendingScroll(null);
     }
-  }, [pendingScroll]);
+  }, [pendingScroll]); //only run when pendingScroll changes
 
   const canGoBack = currentIndex > 0;
   const canGoNext = currentIndex < sectionComponents.length - 1;
@@ -65,7 +66,7 @@ export default function DecisionTrees() {
       </p>
 
       <div className="dtree-section">
-        {sectionComponents[currentIndex]?.component || <p>Section not found</p>}
+        {sectionComponents[currentIndex]?.component || <p>Section not found</p>} {/* ? is good practice to prevent crashing, return undefined instead */}
       </div>
 
       <div className="dtree-nav">

@@ -25,12 +25,12 @@ export default function Home() {
 
       <div className="topics-grid">
         {topics.map((topic) => (
-          topic.status === 'ready' ? (
-            <Link to="/decision-trees/1" className="topic-card" key={topic.title}>
-              <div className="card-box" style={{ backgroundImage: `url(${topic.image})` }} />
+          topic.status === 'ready' ? ( //if ready: 
+            <Link to="/decision-trees/1" className="topic-card" key={topic.title}> {/* Most likely React will need key for proper rendering, make it a good habit */}
+              <div className="card-box" style={{ backgroundImage: `url(${topic.image})` }} /> {/* React: {{...}} as outside = JS mode, inside = JS object literal for style */}
               <div className="card-label">{topic.title}</div>
             </Link>
-          ) : (
+          ) : ( //if not ready:
             <div className="topic-card disabled" key={topic.title}>
               <div className="card-box" />
               <div className="card-label">{topic.title}</div>

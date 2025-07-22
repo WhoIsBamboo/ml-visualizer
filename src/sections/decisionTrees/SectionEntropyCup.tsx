@@ -1,25 +1,28 @@
 import './SectionEntropyCup.css';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react'; //https://www.reddit.com/r/reactjs/comments/iltrvn/what_is_useref_for_when_should_i_use_it/ 
 import Matter from 'matter-js';
 
+//note to self: https://react.dev/reference/react/useRef 
+
 export default function SectionEntropyCup() {
-  const sceneRef = useRef<HTMLDivElement>(null);
-  const engineRef = useRef<Matter.Engine | null>(null);
-  const renderRef = useRef<Matter.Render | null>(null);
-  const [entropy, setEntropy] = useState('0.00');
+  const sceneRef = useRef<HTMLDivElement>(null); //ref to where canvas is
+  const engineRef = useRef<Matter.Engine | null>(null); // store physics engine
+  const renderRef = useRef<Matter.Render | null>(null); // store rendering tool 
+  const [entropy, setEntropy] = useState('0.00'); 
 
-  const leftWallRef = useRef<Matter.Body | null>(null);
-  const rightWallRef = useRef<Matter.Body | null>(null);
-  const baseRef = useRef<Matter.Body | null>(null);
+  const leftWallRef = useRef<Matter.Body | null>(null); //left side cup
+  const rightWallRef = useRef<Matter.Body | null>(null); //right side cup
+  const baseRef = useRef<Matter.Body | null>(null); //base cup
 
-  useEffect(() => {
+
+  useEffect(() => { //runs once
     const { Engine, Render, Runner, Bodies, Composite, Body } = Matter;
     const engine = Engine.create();
     engine.gravity.y = 0.9;
     engineRef.current = engine;
 
     const render = Render.create({
-      element: sceneRef.current!,
+      element: sceneRef.current!, //cannot be null
       engine,
       options: {
         width: 600,
@@ -54,7 +57,7 @@ export default function SectionEntropyCup() {
       const mouse = { x: e.clientX - rect.left, y: e.clientY - rect.top };
 
       Composite.allBodies(engine.world).forEach((body) => {
-        if (body.isStatic) return;
+        if (body.isStatic) return; //ignore static bodies
         const dx = body.position.x - mouse.x;
         const dy = body.position.y - mouse.y;
         const distSq = dx * dx + dy * dy;
