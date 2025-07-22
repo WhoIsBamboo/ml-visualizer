@@ -22,7 +22,7 @@ export default function SectionEntropyCup() {
     engineRef.current = engine;
 
     const render = Render.create({
-      element: sceneRef.current!, //cannot be null
+      element: sceneRef.current!, //cannot be null, sceneRef use the <div> and pass it to element, inserting a canvas there
       engine,
       options: {
         width: 600,
@@ -86,7 +86,7 @@ export default function SectionEntropyCup() {
   function addShape(type: 'square' | 'triangle') {
     const Body = Matter.Bodies;
     const World = Matter.World;
-    const x = 240 + Math.random() * 120;
+    const x = 240 + Math.random() * 120; //random dropping position
     const color = type === 'square' ? '#f76e79ff' : '#94e9caff';
 
     const shape =
@@ -100,28 +100,29 @@ export default function SectionEntropyCup() {
   function resetScene() {
     const engine = engineRef.current;
     if (!engine) return;
-    const toRemove = Matter.Composite.allBodies(engine.world).filter((b) => !b.isStatic);
-    toRemove.forEach((b) => Matter.Composite.remove(engine.world, b));
+    const toRemove = Matter.Composite.allBodies(engine.world).filter((b) => !b.isStatic); //Get all bodies in the world, filter only dynamic shape
+    toRemove.forEach((b) => Matter.Composite.remove(engine.world, b)); //remove non-static bodies
   }
 
   function calculateEntropy() {
     const engine = engineRef.current;
-    if (!engine) return '0.00';
-    const shapes = Matter.Composite.allBodies(engine.world);
-    if (!leftWallRef.current || !rightWallRef.current || !baseRef.current) return;
+    if (!engine) return '0.00'; //if engine not ready then just 0.
+    const shapes = Matter.Composite.allBodies(engine.world); //get all bodies
+    if (!leftWallRef.current || !rightWallRef.current || !baseRef.current) return; //check if cup exists (fail safe)
 
-    const xMin = Math.min(leftWallRef.current.position.x, rightWallRef.current.position.x) - 40;
-    const xMax = Math.max(leftWallRef.current.position.x, rightWallRef.current.position.x) + 40;
+    //identify boundary
+    const xMin = leftWallRef.current.position.x - 40; 
+    const xMax = rightWallRef.current.position.x + 40;
     const yMax = baseRef.current.position.y;
-    const yMin = yMax - leftWallRef.current.bounds.max.y + leftWallRef.current.bounds.min.y;
+    const yMin = yMax - leftWallRef.current.bounds.max.y + leftWallRef.current.bounds.min.y; //ymax - height of cup
 
-    const inCup = (x: number, y: number) => x >= xMin && x <= xMax && y >= yMin && y <= yMax;
+    const inCup = (x: number, y: number) => x >= xMin && x <= xMax && y >= yMin && y <= yMax; //arrow function to return true if (x,y) in the cup
 
     let squareCount = 0;
     let triangleCount = 0;
 
     shapes.forEach((body) => {
-      const { x, y } = body.position;
+      const { x, y } = body.position; //destructure body for position x,y
       if (inCup(x, y)) {
         if (body.label === 'Rectangle') squareCount++;
         if (body.label === 'Polygon') triangleCount++;
@@ -129,21 +130,22 @@ export default function SectionEntropyCup() {
     });
 
     const total = squareCount + triangleCount;
-    const p1 = squareCount / total || 0;
-    const p2 = triangleCount / total || 0;
-    const entropy = (p: number) => (p === 0 ? 0 : -p * Math.log2(p));
-    return (entropy(p1) + entropy(p2)).toFixed(2);
+    const p1 = squareCount / total || 0; //fail safe for 0 div
+    const p2 = triangleCount / total || 0; //fail safe for 0 div
+    const entropy = (p: number) => (p === 0 ? 0 : -p * Math.log2(p)); //if 0 then entropy = 0, else formula
+    return (entropy(p1) + entropy(p2)).toFixed(2); //round to 2 decimal places
   }
 
+  //recalculate entropy every animation frame
   useEffect(() => {
-    let animationFrame: number;
+    let animationFrame: number; //for storing AnimationFrame id
     const loop = () => {
-      const value = calculateEntropy();
+      const value = calculateEntropy(); 
       if (value !== undefined) setEntropy(value);
-      animationFrame = requestAnimationFrame(loop);
+      animationFrame = requestAnimationFrame(loop); //run the loop function again on next animation frame (60Hz)
     };
     loop();
-    return () => cancelAnimationFrame(animationFrame);
+    return () => cancelAnimationFrame(animationFrame); //cleanup when component removed
   }, []);
 
   return (

@@ -6,7 +6,7 @@ export default function SectionAccuracyDepthDemo() {
 
   // Accuracy logic
   const trainingAcc = 0.5 + 0.3 * Math.log(depth + 1);
-  const testAcc = depth < 4 ? 0.1 + 0.2 * Math.sqrt(depth) : Math.max(0.3, 1 - 0.2 * (depth - 4));
+  const testAcc = depth < 4 ? 0.1 + 0.2 * Math.sqrt(depth) : (1 - 0.2 * (depth - 4));
 
   return (
     <div className="section-wrapper">

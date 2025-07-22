@@ -1,17 +1,19 @@
 import { useState } from 'react';
 import './SectionInfoGain.css';
 
+//declare the Point type
 type Point = {
   x: number;
   y: number;
   label: 'red' | 'blue';
 };
 
+
 function generatePoints(): Point[] {
-  const points: Point[] = [];
-  for (let i = 0; i < 10; i++) {
-    const bias = Math.random();
-    const isRed = bias < 0.5;
+  const points: Point[] = []; //declare as an array of points
+  for (let i = 0; i < 10; i++) { //10 points
+    const bias = Math.random(); //
+    const isRed = bias < 0.5; //50-50 red blue
     const x = isRed
       ? 40 + Math.random() * 260 // red biased toward left
       : 140 + Math.random() * 300; // blue biased toward right
@@ -22,17 +24,18 @@ function generatePoints(): Point[] {
 }
 
 export default function SectionInfoGain() {
-  const [splitX, setSplitX] = useState(240);
-  const [points, setPoints] = useState<Point[]>(generatePoints());
+  const [splitX, setSplitX] = useState(240); //position of vertical split
+  const [points, setPoints] = useState<Point[]>(generatePoints()); //hold current 10 points, generate when first initiate
 
   function regenerate() {
     setPoints(generatePoints());
   }
 
+  //calculate the entropy of a group of Points
   function entropy(group: Point[]): number {
-    const counts = group.reduce(
+    const counts = group.reduce( //go through every item in array, build up from acc = { red: 0, blue: 0 }
       (acc, pt) => {
-        acc[pt.label]++;
+        acc[pt.label]++; //example: acc['red']++ 
         return acc;
       },
       { red: 0, blue: 0 }
@@ -45,8 +48,8 @@ export default function SectionInfoGain() {
     return e(pRed) + e(pBlue);
   }
 
-  const leftGroup = points.filter((pt) => pt.x < splitX);
-  const rightGroup = points.filter((pt) => pt.x >= splitX);
+  const leftGroup = points.filter((pt) => pt.x < splitX); //only points on the left
+  const rightGroup = points.filter((pt) => pt.x >= splitX); //only points on the right
 
   const originalEntropy = entropy(points);
   const leftEntropy = entropy(leftGroup);
@@ -54,7 +57,7 @@ export default function SectionInfoGain() {
   const leftWeight = leftGroup.length / points.length;
   const rightWeight = rightGroup.length / points.length;
   const weightedEntropy = leftWeight * leftEntropy + rightWeight * rightEntropy;
-  const infoGain = originalEntropy - weightedEntropy;
+  const infoGain = originalEntropy - weightedEntropy; //info gain
 
   return (
     <div className="section-wrapper">
@@ -72,16 +75,16 @@ export default function SectionInfoGain() {
             {/* Points */}
             {points.map((pt, i) => (
               <circle
-                key={i}
-                cx={pt.x}
-                cy={pt.y}
+                key={i} //required by React 
+                cx={pt.x} //center x
+                cy={pt.y} //center y
                 r={10}
                 fill={pt.label === 'red' ? '#ff4d5a' : '#4d79ff'}
               />
             ))}
 
             <g>
-              {/* Invisible */}
+              {/* Invisible, thicker 20, change cursor to left-right drag icon on hover */}
               <line
                 x1={splitX}
                 y1={0}
@@ -104,12 +107,13 @@ export default function SectionInfoGain() {
               />
 
               {/* Visible */}
+              {/* Dark gray, thickness = 4, dash 6px line 4px gap, ignore pointerEvents */}
               <line
                 x1={splitX}
                 y1={0}
                 x2={splitX}
                 y2={300}
-                stroke="#444"
+                stroke="#444"  
                 strokeWidth={4}
                 strokeDasharray="6 4"
                 style={{ pointerEvents: 'none' }} 
